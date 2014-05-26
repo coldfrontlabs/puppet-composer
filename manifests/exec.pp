@@ -15,6 +15,7 @@ define composer::exec (
   $cwd,
   $packages          = [],
   $prefer_source     = false,
+  $global            = false,
   $prefer_dist       = false,
   $dry_run           = false,
   $custom_installers = false,
@@ -40,11 +41,18 @@ define composer::exec (
     fail("Only types 'install' and 'update' are allowed, ${cmd} given")
   }
 
+  if $global {
+    $glb = "global"
+  }
+  else {
+    $glb = ''
+  }
+
   if $prefer_source and $prefer_dist {
     fail('Only one of \$prefer_source or \$prefer_dist can be true.')
   }
 
-  $command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file} ${cmd}"
+  $command = "${composer::php_bin} ${glb} ${composer::target_dir}/${composer::composer_file} ${cmd}"
 
   exec { "composer_update_${title}":
     command     => template('composer/exec.erb'),
