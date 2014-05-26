@@ -38,7 +38,6 @@
 #
 define composer::require(
   $project_name,
-  $target_dir,
   $global                   = false,
   $version                  = undef,
   $prefer_source            = false,
@@ -106,6 +105,5 @@ define composer::require(
     command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop}${uwd} require ${end_command}${v}",
     tries   => $tries,
     timeout => $timeout,
-    creates => $target_dir,
   }
 }
