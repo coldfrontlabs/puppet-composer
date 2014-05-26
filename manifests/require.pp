@@ -60,7 +60,7 @@ define composer::require(
   }
 
   $glb = $global ? {
-    true => 'global',
+    true => ' global',
     default => '',
   }
 
@@ -97,7 +97,7 @@ define composer::require(
     default => " ${version}",
   }
 
-  $exec_name    = "composer_require_project_${glb}_${title}"
+  $exec_name    = "composer_require_project_${title}"
   $base_command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file}"
   $end_command  = "${project_name} ${target_dir}"
 
