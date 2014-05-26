@@ -41,8 +41,13 @@ define composer::exec (
     fail("Only types 'install' and 'update' are allowed, ${cmd} given")
   }
 
+  $glb = $global ? {
+    true => 'global',
+    default => '',
+  }
+
   if $global and ($cmd == 'install' or $cmd == 'update' or $cmd == 'require') {
-    $glb = "global"
+    # Do nothing
   }
   else {
     fail("Only types 'install', 'update' and 'required' are allowed with 'global', ${cmd} given")
@@ -52,7 +57,7 @@ define composer::exec (
     fail('Only one of \$prefer_source or \$prefer_dist can be true.')
   }
 
-  $command = "${composer::php_bin} ${glb} ${composer::target_dir}/${composer::composer_file} ${cmd}"
+  $command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file} ${glb} ${cmd}"
 
   exec { "composer_update_${title}":
     command     => template('composer/exec.erb'),
