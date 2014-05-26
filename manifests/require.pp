@@ -61,7 +61,7 @@ define composer::require(
   }
 
   $exec_name    = "composer_require_project_${title}"
-  $base_command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file} ${glb}"
+  $base_command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file}"
   $end_command  = "${project_name} ${target_dir}"
 
   $glb = $global ? {
@@ -69,13 +69,28 @@ define composer::require(
     default => '',
   }
 
+  $pref_src = $prefer_source? {
+    true  => ' --prefer-source',
+    false => ''
+  }
+
+  $pref_dist = $prefer_dist? {
+    true  => ' --prefer-dist',
+    false => ''
+  }
+
   $dev_arg = $dev ? {
     true    => ' --dev',
     default => '',
   }
 
-  $pref_src = $prefer_source? {
-    true  => ' --prefer-source',
+  $nup = $no_update? {
+    true  => ' --no-update',
+    false => ''
+  }
+
+  $nop = $no_progress? {
+    true  => ' --no-progress',
     false => ''
   }
 
@@ -85,7 +100,7 @@ define composer::require(
   }
 
   exec { $exec_name:
-    command => "${base_command}${dev_arg}${pref_src} require ${end_command}${v}",
+    command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop} require ${end_command}${v}",
     tries   => $tries,
     timeout => $timeout,
     creates => $target_dir,
