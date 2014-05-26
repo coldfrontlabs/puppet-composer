@@ -129,7 +129,6 @@ The `composer::require` definition provides a way to require projects in a targe
 ```puppet
 composer::require { 'silex':
     project_name             => 'fabpot/silex-skeleton',  # REQUIRED
-    target_dir               => '/vagrant/silex', # REQUIRED
     version                  => '2.1.x-dev', # Some valid version string
     global                   => false,
     prefer_source            => true,
