@@ -41,11 +41,11 @@ define composer::exec (
     fail("Only types 'install' and 'update' are allowed, ${cmd} given")
   }
 
-  if $global {
+  if $global and ($cmd == 'install' or $cmd == 'update' or $cmd == 'require') {
     $glb = "global"
   }
   else {
-    $glb = ''
+    fail("Only types 'install', 'update' and 'required' are allowed with 'global', ${cmd} given")
   }
 
   if $prefer_source and $prefer_dist {
