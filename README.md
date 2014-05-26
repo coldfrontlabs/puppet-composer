@@ -122,6 +122,26 @@ composer::exec { 'silex-install':
 }
 ```
 
+### Require Projects
+
+The `composer::require` definition provides a way to require projects in a target directory.
+
+```puppet
+composer::require { 'silex':
+    project_name             => 'fabpot/silex-skeleton',  # REQUIRED
+    target_dir               => '/vagrant/silex', # REQUIRED
+    version                  => '2.1.x-dev', # Some valid version string
+    global                   => false,
+    prefer_source            => true,
+    prefer_dist              => false,
+    dev                      => false,
+    no_update                => false,
+    no_progress              => false,
+    update_with_dependencies => false,
+    user                     => undef, # Set the user to run as
+}
+```
+
 ## Development
 
 For unit testing we use `rspec-puppet` and Travis CI. Functional testing happens through a Vagrant VM where you can test changes in a real server scenario.

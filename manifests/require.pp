@@ -89,7 +89,10 @@ define composer::require(
     true  => ' --no-progress',
     false => ''
   }
-
+  $uwd = $update_with_dependencies? {
+    true => ' --update-with-dependencies',
+    false => ''
+  }
   $v = $version? {
     undef   => '',
     default => " ${version}",
@@ -100,7 +103,7 @@ define composer::require(
   $end_command  = "${project_name} ${target_dir}"
 
   exec { $exec_name:
-    command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop} require ${end_command}${v}",
+    command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop}${uwd} require ${end_command}${v}",
     tries   => $tries,
     timeout => $timeout,
     creates => $target_dir,
