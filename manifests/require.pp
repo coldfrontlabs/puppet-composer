@@ -94,15 +94,15 @@ define composer::require(
   }
   $v = $version? {
     undef   => '',
-    default => " ${version}",
+    default => ":${version}",
   }
 
   $exec_name    = "composer_require_project_${title}"
   $base_command = "${composer::php_bin} ${composer::target_dir}/${composer::composer_file}"
-  $end_command  = "${project_name} ${target_dir}"
+  $end_command  = "${project_name}${v}"
 
   exec { $exec_name:
-    command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop}${uwd} require ${end_command}${v}",
+    command => "${base_command}${glb}${pref_src}${pref_dist}${dev_arg}${nup}${nop}${uwd} require ${end_command}",
     tries   => $tries,
     timeout => $timeout,
   }
